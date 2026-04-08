@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tourism Explorer India | Register</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+/* 🌄 BACKGROUND SLIDESHOW */
+.slideshow{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+}
+
+.slideshow img{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0;
+animation:slide 25s infinite;
+}
+
+.slideshow img:nth-child(1){animation-delay:0s;}
+.slideshow img:nth-child(2){animation-delay:5s;}
+.slideshow img:nth-child(3){animation-delay:10s;}
+.slideshow img:nth-child(4){animation-delay:15s;}
+.slideshow img:nth-child(5){animation-delay:20s;}
+
+@keyframes slide{
+0%{opacity:0;}
+10%{opacity:1;}
+30%{opacity:1;}
+40%{opacity:0;}
+100%{opacity:0;}
+}
+
+/* 🌫️ OVERLAY */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+z-index:-1;
+}
+
+/* 🔥 MAIN LAYOUT */
+.main-box{
+display:flex;
+gap:30px;
+width:900px;
+}
+
+/* 🌍 LEFT INFO */
+.info-box{
+flex:1;
+color:white;
+padding:20px;
+}
+
+.info-box h1{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.info-box span{
+color:#90e0ef;
+}
+
+.info-box p{
+font-size:14px;
+margin-bottom:15px;
+line-height:1.6;
+}
+
+/* DESTINATIONS GRID */
+.destinations{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+}
+
+.destinations div{
+background:rgba(255,255,255,0.2);
+padding:8px;
+border-radius:8px;
+text-align:center;
+font-size:13px;
+transition:0.3s;
+}
+
+.destinations div:hover{
+background:rgba(255,255,255,0.4);
+transform:scale(1.05);
+}
+
+/* 💎 REGISTER CARD */
+.register-container{
+flex:1;
+backdrop-filter:blur(12px);
+background:rgba(255,255,255,0.15);
+padding:40px;
+border-radius:20px;
+box-shadow:0 10px 40px rgba(0,0,0,0.4);
+text-align:center;
+color:white;
+}
+
+.brand{
+font-size:22px;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.tagline{
+font-size:13px;
+margin-bottom:20px;
+}
+
+/* INPUTS */
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+outline:none;
+}
+
+input:focus{
+box-shadow:0 0 8px rgba(255,255,255,0.7);
+}
+
+/* BUTTON */
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(45deg,#90e0ef,#00b4d8);
+color:#003049;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+/* LINKS */
+p{
+margin-top:15px;
+}
+
+a{
+color:#caf0f8;
+text-decoration:none;
+font-weight:bold;
+}
+
+a:hover{
+text-decoration:underline;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌄 BACKGROUND -->
+<div class="slideshow">
+<img src="/static/images/tajmahal.jpg">
+<img src="/static/images/jaipur.jpg">
+<img src="/static/images/goa.jpg">
+<img src="/static/images/kerala.jpg">
+<img src="/static/images/hampi.jpg">
+</div>
+
+<div class="overlay"></div>
+
+<!-- 🔥 MAIN -->
+<div class="main-box">
+
+<!-- 🌍 LEFT SIDE -->
+<div class="info-box">
+
+<h1>Tourism <span>Explorer India</span></h1>
+
+<p>
+Explore the beauty of India with our Tourism Explorer platform. Discover famous destinations, hidden gems, and nearby attractions all in one place.
+</p>
+
+<p>
+From the majestic Taj Mahal to the beaches of Goa and the spiritual city of Varanasi, we bring you the best travel experiences across India.
+</p>
+
+<h3>Top Destinations</h3>
+
+<div class="destinations">
+<div>Taj Mahal</div>
+<div>Jaipur</div>
+<div>Goa</div>
+<div>Hampi</div>
+<div>Kerala</div>
+<div>Varanasi</div>
+<div>Golden Temple</div>
+<div>Mysore</div>
+<div>Ajanta</div>
+<div>Charminar</div>
+<div>Andhra Pradesh</div>
+</div>
+
+</div>
+
+<!-- 💎 REGISTER -->
+<div class="register-container">
+
+<div class="brand">Create Account 🚀</div>
+<div class="tagline">Start your journey today</div>
+
+<form method="POST">
+<input type="text" name="username" placeholder="Enter Username" required>
+<input type="password" name="password" placeholder="Enter Password" required>
+<button type="submit">Register</button>
+</form>
+
+<p>Already have an account? <a href="/login">Login</a></p>
+
+</div>
+
+</div>
+
+</body>
+</html>

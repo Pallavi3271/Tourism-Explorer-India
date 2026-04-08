@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tourism Explorer India | Login</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+/* BACKGROUND SLIDESHOW */
+.slideshow{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+}
+
+.slideshow img{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0;
+animation:slide 25s infinite;
+}
+
+.slideshow img:nth-child(1){animation-delay:0s;}
+.slideshow img:nth-child(2){animation-delay:5s;}
+.slideshow img:nth-child(3){animation-delay:10s;}
+.slideshow img:nth-child(4){animation-delay:15s;}
+.slideshow img:nth-child(5){animation-delay:20s;}
+
+@keyframes slide{
+0%{opacity:0;}
+10%{opacity:1;}
+30%{opacity:1;}
+40%{opacity:0;}
+100%{opacity:0;}
+}
+
+/* overlay */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+z-index:-1;
+}
+
+/* MAIN CONTAINER */
+.main-container{
+display:flex;
+gap:40px;
+align-items:center;
+}
+
+/* LEFT SIDE DESCRIPTION */
+.info-box{
+width:400px;
+color:white;
+}
+
+.info-box h1{
+font-size:36px;
+margin-bottom:10px;
+}
+
+.info-box span{
+color:#90e0ef;
+}
+
+.info-box p{
+font-size:16px;
+line-height:1.6;
+opacity:0.9;
+}
+
+/* LOGIN CARD */
+.login-container{
+backdrop-filter:blur(12px);
+background:rgba(255,255,255,0.15);
+padding:40px;
+width:360px;
+border-radius:20px;
+box-shadow:0 10px 40px rgba(0,0,0,0.4);
+text-align:center;
+color:white;
+}
+
+/* branding */
+.brand{
+font-size:24px;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.brand span{
+color:#90e0ef;
+}
+
+.tagline{
+font-size:13px;
+margin-bottom:20px;
+}
+
+/* inputs */
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+outline:none;
+}
+
+/* button */
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(45deg,#90e0ef,#00b4d8);
+color:#003049;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+/* links */
+p{
+margin-top:15px;
+}
+
+a{
+color:#caf0f8;
+text-decoration:none;
+font-weight:bold;
+}
+
+a:hover{
+text-decoration:underline;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Background slideshow -->
+<div class="slideshow">
+<img src="/static/images/tajmahal.jpg">
+<img src="/static/images/jaipur.jpg">
+<img src="/static/images/goa.jpg">
+<img src="/static/images/kerala.jpg">
+<img src="/static/images/hampi.jpg">
+</div>
+
+<div class="overlay"></div>
+
+<div class="main-container">
+
+<!-- LEFT DESCRIPTION -->
+<div class="info-box">
+<h1>Tourism <span>Explorer India</span></h1>
+
+<p>
+Welcome to Tourism Explorer India — your gateway to discovering the beauty,
+culture, and heritage of India. This platform helps you explore destinations,
+view detailed information, and find nearby attractions with ease.
+</p>
+
+<p style="margin-top:15px;">
+Plan your journey smarter and experience travel like never before.
+</p>
+</div>
+
+<!-- LOGIN FORM -->
+<div class="login-container">
+
+<div class="brand">Welcome Back 👋</div>
+<div class="tagline">Login to continue your journey</div>
+
+<form method="POST">
+<input type="text" name="username" placeholder="Enter Username" required>
+<input type="password" name="password" placeholder="Enter Password" required>
+<button type="submit">Login</button>
+</form>
+
+<p>New user? <a href="/register">Register</a></p>
+
+</div>
+
+</div>
+
+</body>
+</html>

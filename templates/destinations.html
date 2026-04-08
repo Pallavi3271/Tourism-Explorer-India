@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tourism Explorer India</title>
+
+<style>
+body {font-family: Arial, sans-serif; margin:0; background:#f5f5f5;}
+header {background:#0077b6; color:white; padding:20px; text-align:center;}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:20px;
+}
+
+.card {
+  background:white;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  text-align:center;
+  cursor:pointer;
+  transition:0.2s;
+}
+.card:hover {transform:scale(1.03);}
+
+.card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+#detailView {display:none; padding:20px;}
+
+#backBtn {
+  background:#0077b6;
+  color:white;
+  border:none;
+  padding:10px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+#detailImage {
+  width:100%;
+  max-height:300px;
+  object-fit:cover;
+  border-radius:10px;
+  margin:10px 0;
+}
+
+#nearbyContainer {
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+}
+
+#nearbyContainer .card {
+  width:200px;
+}
+
+.more-btn {
+  margin-top:5px;
+  background:#0077b6;
+  color:white;
+  border:none;
+  padding:5px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.nearby-desc {
+  display:none;
+  font-size:12px;
+  padding:5px;
+}
+
+footer {
+  background:#0077b6;
+  color:white;
+  text-align:center;
+  padding:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Tourism Explorer India</h1>
+</header>
+
+<!-- ✅ DESTINATIONS -->
+<div class="cards" id="cardsContainer">
+
+<div class="card" onclick="showDetail('tajmahal')">
+<img src="{{ url_for('static', filename='images/tajmahal.jpg') }}">
+<h3>Taj Mahal</h3>
+</div>
+
+<div class="card" onclick="showDetail('jaipur')">
+<img src="{{ url_for('static', filename='images/jaipur.jpg') }}">
+<h3>Jaipur</h3>
+</div>
+
+<div class="card" onclick="showDetail('goa')">
+<img src="{{ url_for('static', filename='images/goa.jpg') }}">
+<h3>Goa</h3>
+</div>
+
+<div class="card" onclick="showDetail('hampi')">
+<img src="{{ url_for('static', filename='images/hampi.jpg') }}">
+<h3>Hampi</h3>
+</div>
+
+<div class="card" onclick="showDetail('kerala')">
+<img src="{{ url_for('static', filename='images/kerala.jpg') }}">
+<h3>Kerala</h3>
+</div>
+
+<div class="card" onclick="showDetail('varanasi')">
+<img src="{{ url_for('static', filename='images/varanasi.jpg') }}">
+<h3>Varanasi</h3>
+</div>
+
+<div class="card" onclick="showDetail('goldentemple')">
+<img src="{{ url_for('static', filename='images/goldentemple.jpg') }}">
+<h3>Golden Temple</h3>
+</div>
+
+<div class="card" onclick="showDetail('mysore')">
+<img src="{{ url_for('static', filename='images/mysore.jpg') }}">
+<h3>Mysore</h3>
+</div>
+
+<div class="card" onclick="showDetail('ajanta')">
+<img src="{{ url_for('static', filename='images/ajanta.jpg') }}">
+<h3>Ajanta & Ellora</h3>
+</div>
+
+<div class="card" onclick="showDetail('charminar')">
+<img src="{{ url_for('static', filename='images/charminar.jpg') }}">
+<h3>Charminar</h3>
+</div>
+
+<div class="card" onclick="showDetail('andhrapradesh')">
+<img src="{{ url_for('static', filename='images/andhrapradesh.jpg') }}">
+<h3>Andhra Pradesh</h3>
+</div>
+
+</div>
+
+<!-- ✅ DETAIL VIEW -->
+<div id="detailView">
+<button id="backBtn" onclick="backToList()">← Back</button>
+
+<h2 id="detailTitle"></h2>
+<img id="detailImage">
+<p id="detailDescription"></p>
+
+<h3>Nearby Places</h3>
+<div id="nearbyContainer"></div>
+</div>
+
+<footer>© 2026 Tourism Explorer</footer>
+
+<script>
+const data = {
+
+// MAIN DESTINATIONS
+tajmahal:{
+title:"Taj Mahal",
+image:"/static/images/tajmahal.jpg",
+description:"The Taj Mahal is one of the Seven Wonders of the World. It was built by Shah Jahan.",
+nearby:["agrafort","fatehpur","mehtab","itmad","jama"]
+},
+
+jaipur:{
+title:"Jaipur",
+image:"/static/images/jaipur.jpg",
+description:"Jaipur is called the Pink City. It is famous for forts and palaces.",
+nearby:["amber","citypalace","hawamahal","jalmahal","nahargarh"]
+},
+
+goa:{
+title:"Goa",
+image:"/static/images/goa.jpg",
+description:"Goa is famous for beaches and nightlife. It attracts tourists worldwide.",
+nearby:["baga","calangute","anjuna","aguada","dudhsagar"]
+},
+
+hampi:{
+title:"Hampi",
+image:"/static/images/hampi.jpg",
+description:"Hampi is an ancient UNESCO site. It has ruins of Vijayanagara Empire.",
+nearby:["virupaksha","vittala","lotus","bazaar","elephant"]
+},
+
+kerala:{
+title:"Kerala",
+image:"/static/images/kerala.jpg",
+description:"Kerala is known for backwaters and greenery. It is called God's Own Country.",
+nearby:["alleppey","kumarakom","kollam","vembanad","pathiramanal"]
+},
+
+varanasi:{
+title:"Varanasi",
+image:"/static/images/varanasi.jpg",
+description:"Varanasi is a spiritual city. It is famous for ghats and Ganga aarti.",
+nearby:["sarnath","assi","kashi","ramnagar","manikarnika"]
+},
+
+goldentemple:{
+title:"Golden Temple",
+image:"/static/images/goldentemple.jpg",
+description:"Golden Temple is a sacred Sikh shrine. It is located in Amritsar.",
+nearby:["jallianwala","wagah","durgiana","partition","ranjit"]
+},
+
+mysore:{
+title:"Mysore",
+image:"/static/images/mysore.jpg",
+description:"Mysore is known for its palace. It is famous for Dasara festival.",
+nearby:["chamundi","brindavan","palace","church","sanctuary"]
+},
+
+ajanta:{
+title:"Ajanta",
+image:"/static/images/ajanta.jpg",
+description:"Ajanta caves are UNESCO sites. They have ancient paintings.",
+nearby:["ellora","aurangabad","bibi","daulatabad","panchakki"]
+},
+
+charminar:{
+title:"Charminar",
+image:"/static/images/charminar.jpg",
+description:"Charminar is a famous monument in Hyderabad. It represents history.",
+nearby:["mecca","laad","chowmahalla","museum","birla"]
+},
+
+andhrapradesh:{
+title:"Andhra Pradesh",
+image:"/static/images/andhrapradesh.jpg",
+description:"Andhra Pradesh has temples and hills. Tirupati is very famous.",
+nearby:["tirupati","araku","borra","lepakshi","undavalli"]
+},
+
+// NEARBY (2 SENTENCES EACH)
+
+agrafort:{title:"Agra Fort",image:"/static/images/agrafort.jpg",description:"Agra Fort is a red sandstone fort. It was home of Mughal rulers."},
+fatehpur:{title:"Fatehpur Sikri",image:"/static/images/fatehpur.jpg",description:"Fatehpur Sikri was Mughal capital. It has historic buildings."},
+mehtab:{title:"Mehtab Bagh",image:"/static/images/mehtabbagh.jpg",description:"Mehtab Bagh is a garden. It offers Taj view."},
+jama:{title:"Jama Masjid",image:"/static/images/jamamasjid.jpg",description:"Jama Masjid is a big mosque. It has Mughal style."},
+
+amber:{title:"Amber Fort",image:"/static/images/amber.jpg",description:"Amber Fort is a hill fort. It is very beautiful."},
+citypalace:{title:"City Palace",image:"/static/images/citypalace.jpg",description:"City Palace is royal. It has museums."},
+hawamahal:{title:"Hawa Mahal",image:"/static/images/hawamahal.jpg",description:"Hawa Mahal has many windows. It is iconic."},
+jalmahal:{title:"Jal Mahal",image:"/static/images/jalmahal.jpg",description:"Jal Mahal is in water. It is scenic."},
+nahargarh:{title:"Nahargarh Fort",image:"/static/images/nahargarh.jpg",description:"Nahargarh gives city view. It is peaceful."},
+
+baga:{title:"Baga Beach",image:"/static/images/baga.jpg",description:"Baga Beach is lively. It has nightlife."},
+calangute:{title:"Calangute Beach",image:"/static/images/calangute.jpg",description:"Calangute is crowded. It is popular."},
+anjuna:{title:"Anjuna Beach",image:"/static/images/anjuna.jpg",description:"Anjuna is famous for parties. It has markets."},
+aguada:{title:"Fort Aguada",image:"/static/images/aguada.jpg",description:"Aguada is a fort. It has sea view."},
+dudhsagar:{title:"Dudhsagar Falls",image:"/static/images/dudhsagar.jpg",description:"Dudhsagar is a waterfall. It is huge."},
+ // HAMPI
+virupaksha:{title:"Virupaksha Temple",image:"/static/images/virupaksha.jpg",description:"Virupaksha Temple is dedicated to Lord Shiva. It is one of the oldest temples in Hampi."},
+vittala:{title:"Vittala Temple",image:"/static/images/vittala.jpg",description:"Vittala Temple is famous for its stone chariot. It has musical pillars."},
+lotus:{title:"Lotus Mahal",image:"/static/images/lotusmahal.jpg",description:"Lotus Mahal has unique architecture. It looks like a lotus flower."},
+bazaar:{title:"Hampi Bazaar",image:"/static/images/hampibazaar.jpg",description:"Hampi Bazaar is an ancient market street. It shows old trading culture."},
+elephant:{title:"Elephant Stables",image:"/static/images/elephantstables.jpg",description:"Elephant Stables were used for royal elephants. They show great architecture."},
+
+// KERALA
+alleppey:{title:"Alleppey",image:"/static/images/alleppey.jpg",description:"Alleppey is famous for houseboats. It has beautiful backwaters."},
+kumarakom:{title:"Kumarakom",image:"/static/images/kumarakom.jpg",description:"Kumarakom is a village near lake. It is known for bird sanctuary."},
+kollam:{title:"Kollam",image:"/static/images/kollam.jpg",description:"Kollam is a coastal town. It has beaches and backwaters."},
+vembanad:{title:"Vembanad Lake",image:"/static/images/vembanad.jpg",description:"Vembanad is the largest lake in Kerala. It is perfect for boating."},
+pathiramanal:{title:"Pathiramanal Island",image:"/static/images/pathiramanal.jpg",description:"Pathiramanal is a small island. It is peaceful and full of birds."},
+
+// VARANASI
+sarnath:{title:"Sarnath",image:"/static/images/sarnath.jpg",description:"Sarnath is a Buddhist site. Buddha gave his first sermon here."},
+assi:{title:"Assi Ghat",image:"/static/images/assi.jpg",description:"Assi Ghat is a famous ghat. It is popular for rituals."},
+kashi:{title:"Kashi Vishwanath",image:"/static/images/kashivishwanath.jpg",description:"Kashi temple is dedicated to Shiva. It is very sacred."},
+ramnagar:{title:"Ramnagar Fort",image:"/static/images/ramnagar.jpg",description:"Ramnagar Fort is historic. It has a museum."},
+manikarnika:{title:"Manikarnika Ghat",image:"/static/images/manikarnika.jpg",description:"Manikarnika is a cremation ghat. It is spiritually important."},
+
+// GOLDEN TEMPLE
+jallianwala:{title:"Jallianwala Bagh",image:"/static/images/jallianwala.jpg",description:"It is a historic memorial garden. It remembers the 1919 massacre."},
+wagah:{title:"Wagah Border",image:"/static/images/wagah.jpg",description:"Wagah border hosts ceremony daily. It is very energetic."},
+durgiana:{title:"Durgiana Temple",image:"/static/images/durgiana.jpg",description:"This temple looks like Golden Temple. It is a Hindu temple."},
+partition:{title:"Partition Museum",image:"/static/images/partition.jpg",description:"This museum shows partition history. It has real stories."},
+ranjit:{title:"Ranjit Singh Museum",image:"/static/images/ranjitsingh.jpg",description:"Museum of Maharaja Ranjit Singh. It has royal items."},
+
+// MYSORE
+chamundi:{title:"Chamundi Hill",image:"/static/images/chamundi.jpg",description:"Chamundi Hill has a temple. It gives a city view."},
+brindavan:{title:"Brindavan Gardens",image:"/static/images/brindavan.jpg",description:"Famous garden with fountains. It looks beautiful at night."},
+palace:{title:"Mysore Palace",image:"/static/images/mysorepalace.jpg",description:"Mysore Palace is royal. It is very grand."},
+church:{title:"St Philomena Church",image:"/static/images/philomena.jpg",description:"This church is very big. It has Gothic style."},
+
+
+// AJANTA
+ellora:{title:"Ellora Caves",image:"/static/images/ellora.jpg",description:"Ellora caves are rock temples. They are UNESCO sites."},
+aurangabad:{title:"Aurangabad",image:"/static/images/aurangabad.jpg",description:"Aurangabad is historic city. It is near caves."},
+bibi:{title:"Bibi Ka Maqbara",image:"/static/images/bibikamaqbara.jpg",description:"It looks like Taj Mahal. It is a tomb."},
+daulatabad:{title:"Daulatabad Fort",image:"/static/images/daulatabad.jpg",description:"Strong hill fort. Very old structure."},
+panchakki:{title:"Panchakki",image:"/static/images/panchakki.jpg",description:"Ancient water mill. It is historic."},
+
+// CHARMINAR
+mecca:{title:"Mecca Masjid",image:"/static/images/meccamasjid.jpg",description:"Big mosque near Charminar. Very old."},
+laad:{title:"Laad Bazaar",image:"/static/images/laad.jpg",description:"Famous for bangles. Colorful market."},
+chowmahalla:{title:"Chowmahalla Palace",image:"/static/images/chowmahalla.jpg",description:"Royal palace of Nizams. Very beautiful."},
+museum:{title:"Salar Jung Museum",image:"/static/images/salarjung.jpg",description:"Famous museum. Huge collections."},
+birla:{title:"Birla Mandir",image:"/static/images/birlahyd.jpg",description:"Temple on hill. Great city view."},
+
+// ANDHRA PRADESH
+tirupati:{title:"Tirupati",image:"/static/images/tirupati.jpg",description:"Famous temple of Lord Balaji. Millions visit."},
+araku:{title:"Araku Valley",image:"/static/images/araku.jpg",description:"Hill station with coffee farms. Very scenic."},
+borra:{title:"Borra Caves",image:"/static/images/borra.jpg",description:"Limestone caves. Natural formations."},
+lepakshi:{title:"Lepakshi",image:"/static/images/lepakshi.jpg",description:"Temple with hanging pillar. Unique place."},
+undavalli:{title:"Undavalli Caves",image:"/static/images/undavalli.jpg",description:"Rock-cut caves. Ancient carvings."}
+
+// YOU CAN ADD REMAINING SAME WAY
+
+};
+
+function showDetail(place){
+const d=data[place];
+
+document.getElementById("cardsContainer").style.display="none";
+document.getElementById("detailView").style.display="block";
+
+document.getElementById("detailTitle").innerText=d.title;
+document.getElementById("detailImage").src=d.image;
+document.getElementById("detailDescription").innerText=d.description;
+
+let container=document.getElementById("nearbyContainer");
+container.innerHTML="";
+
+d.nearby.forEach(p=>{
+let item=data[p];
+
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+<img src="${item.image}">
+<h4>${item.title}</h4>
+<button class="more-btn" onclick="this.nextElementSibling.style.display='block'">More Info</button>
+<p class="nearby-desc">${item.description}</p>
+`;
+
+container.appendChild(card);
+});
+}
+
+function backToList(){
+document.getElementById("detailView").style.display="none";
+document.getElementById("cardsContainer").style.display="grid";
+}
+</script>
+
+</body>
+</html>
