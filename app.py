@@ -6,8 +6,11 @@ app = Flask(__name__)
 app.secret_key = "secret123"
 
 # ================= DATABASE =================
+
+DB_PATH = os.path.join(os.path.dirname(__file__), 'database.db')
+
 def init_db():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(DB_PATH)
     conn.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,6 +20,8 @@ def init_db():
     ''')
     conn.close()
 
+# 🔥 IMPORTANT: Call this globally (for Render)
+init_db()
 
 # ================= ROUTES =================
 
@@ -33,7 +38,7 @@ def register():
         user = request.form['username']
         pwd = request.form['password']
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
 
         try:
@@ -59,7 +64,7 @@ def login():
         user = request.form['username']
         pwd = request.form['password']
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
 
         cursor.execute(
@@ -97,7 +102,4 @@ def logout():
 
 # ================= RUN =================
 if __name__ == '__main__':
-    init_db()
-
-    # 🔥 IMPORTANT for deployment (Render)
     app.run(host='0.0.0.0', port=10000)
